@@ -1,12 +1,24 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello World </title>
+  <title>Hello World</title>
   <style>
     * {
       box-sizing: border-box;
+    }
+
+    :root {
+      --ink: #111827;
+      --muted: #4b5563;
+      --paper: rgba(255, 255, 255, 0.72);
+      --paper-strong: rgba(255, 255, 255, 0.88);
+      --line: rgba(17, 24, 39, 0.12);
+      --pink: #ef5b7f;
+      --teal: #21bfa7;
+      --gold: #f2aa4c;
+      --dark: #111827;
     }
 
     body {
@@ -14,60 +26,246 @@
       min-height: 100vh;
       display: grid;
       place-items: center;
+      padding: 24px;
       font-family: "Segoe UI", Arial, sans-serif;
-      color: #132238;
+      color: var(--ink);
       background:
-        radial-gradient(circle at 15% 20%, rgba(255, 206, 115, 0.88), transparent 28%),
-        radial-gradient(circle at 82% 18%, rgba(93, 214, 188, 0.82), transparent 30%),
-        radial-gradient(circle at 50% 88%, rgba(242, 116, 116, 0.72), transparent 32%),
-        linear-gradient(135deg, #f6f1df 0%, #d9f0ef 48%, #f8dfd4 100%);
+        radial-gradient(circle at 12% 18%, rgba(242, 170, 76, 0.9), transparent 25%),
+        radial-gradient(circle at 84% 22%, rgba(33, 191, 167, 0.82), transparent 29%),
+        radial-gradient(circle at 50% 92%, rgba(239, 91, 127, 0.72), transparent 31%),
+        linear-gradient(135deg, #fff3c7 0%, #dff8f4 48%, #ffe1e9 100%);
+      overflow-x: hidden;
+    }
+
+    .shell {
+      width: min(94vw, 980px);
+      min-height: min(760px, calc(100vh - 48px));
+      position: relative;
       overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: 0 28px 90px rgba(17, 24, 39, 0.22);
+      backdrop-filter: blur(22px);
+    }
+
+    .shell::before,
+    .shell::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(17, 24, 39, 0.12);
+      pointer-events: none;
+    }
+
+    .shell::before {
+      width: 240px;
+      height: 240px;
+      top: -80px;
+      right: -70px;
+      border-radius: 42% 58% 66% 34%;
+      animation: drift 9s ease-in-out infinite;
+    }
+
+    .shell::after {
+      width: 180px;
+      height: 180px;
+      left: -62px;
+      bottom: -52px;
+      border-radius: 58% 42% 35% 65%;
+      animation: drift 11s ease-in-out infinite reverse;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 22px clamp(20px, 5vw, 46px);
+      position: relative;
+      z-index: 2;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .brand {
+      font-weight: 900;
+      color: var(--dark);
+      text-decoration: none;
+    }
+
+    .links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .links a,
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 15px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.58);
+      color: var(--ink);
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform 180ms ease, background 180ms ease, color 180ms ease;
+    }
+
+    .links a:hover,
+    .links a.active,
+    .button:hover {
+      transform: translateY(-2px);
+      background: var(--dark);
+      color: #fff8e7;
     }
 
     main {
-      width: min(90vw, 720px);
-      padding: 56px 36px;
-      text-align: center;
-      border: 1px solid rgba(255, 255, 255, 0.68);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.54);
-      box-shadow: 0 24px 80px rgba(40, 57, 82, 0.18);
-      backdrop-filter: blur(18px);
+      position: relative;
+      z-index: 1;
+      display: grid;
+      align-content: center;
+      min-height: 620px;
+      padding: clamp(34px, 7vw, 76px);
+    }
+
+    .hero,
+    .page {
+      max-width: 760px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--dark);
+      color: #fff8e7;
+      font-size: 0.86rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .badge span {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 18px var(--teal);
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(3rem, 8vw, 6.5rem);
-      line-height: 1;
+      max-width: 780px;
+      font-size: clamp(3.1rem, 9vw, 8rem);
+      line-height: 0.94;
       letter-spacing: 0;
     }
 
-    p {
-      max-width: 520px;
-      margin: 24px auto 0;
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
-      line-height: 1.6;
-      color: #35445a;
+    h1 strong {
+      display: block;
+      color: var(--pink);
+      text-shadow: 0 12px 30px rgba(239, 91, 127, 0.24);
     }
 
-    .spark {
-      display: inline-block;
-      margin-bottom: 22px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: #132238;
-      color: #fff9ed;
-      font-size: 0.9rem;
-      font-weight: 700;
-      text-transform: uppercase;
+    p {
+      max-width: 650px;
+      margin: 24px 0 0;
+      font-size: clamp(1rem, 2.3vw, 1.24rem);
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 34px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .card {
+      min-height: 132px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper-strong);
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 0.96rem;
+      line-height: 1.55;
+    }
+
+    @keyframes drift {
+      0%, 100% {
+        transform: translateY(0) rotate(14deg);
+      }
+
+      50% {
+        transform: translateY(26px) rotate(22deg);
+      }
+    }
+
+    @media (max-width: 720px) {
+      nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .links {
+        justify-content: flex-start;
+      }
+
+      main {
+        min-height: 560px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-  <main>
-    <div class="spark">First page</div>
-    <h1>Hello Good morning </h1>
-    <p>A bright little starter page with a soft glass panel and a warm colorful background.</p>
-  </main>
+  <div class="shell">
+    <nav aria-label="Main navigation">
+      <a class="brand" href="index.html">HelloSite</a>
+      <div class="links">
+        <a class="active" href="index.html">Home</a>
+        <a class="" href="about.html">About</a>
+        <a class="" href="contact.html">Contact</a>
+        <a class="" href="future.html">Future</a>
+      </div>
+    </nav>
+    <main>
+      <section class="hero" aria-label="Hello world home page">
+        <div class="badge"><span></span> Fancy starter page</div>
+        <h1>Hello,<strong>World!</strong></h1>
+        <p>A bright, modern website starter with a glass-style layout, colorful background, smooth motion, and pages that work together.</p>
+        <div class="actions">
+          <a class="button" href="about.html">Meet the site</a>
+          <a class="button" href="future.html">See future plans</a>
+        </div>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
